@@ -1,7 +1,7 @@
 # Runeterra Wallpapers Downloader
 ![CI](https://github.com/alexito4/RuneterraWallpapersDownloader/workflows/CI/badge.svg)
 
-Are you a [Runeterra](https://universe.leagueoflegends.com) fan? Do you want the amazing art of the Legends of Runeterra cards as your wallpaper? Wait no more, this tool will help you get all those amazing wallpapers with no effort.
+Are you a [Runeterra](https://universe.leagueoflegends.com) fan? Do you want the amazing art of the [Legends of Runeterra](https://playruneterra.com) cards as your wallpaper? Wait no more, this tool will help you get those **more than 500** amazing wallpapers with no effort.
 
 ![03PZ001-full](03PZ001-full.jpg)
 
