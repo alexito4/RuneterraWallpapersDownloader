@@ -2,26 +2,25 @@ import Foundation
 import Zip
 
 public final class AssetDownloader {
-    
-    public init() {}
-    
-    private let urls: [URL] = [
-        "https://dd.b.pvp.net/latest/set1-en_us.zip",
-        "https://dd.b.pvp.net/latest/set2-en_us.zip",
-        "https://dd.b.pvp.net/latest/set3-en_us.zip",
-    ]
-    .compactMap(URL.init(string:))
-    
     private var observations = Set<NSKeyValueObservation>()
-    
-    public func download(completion: @escaping (Result<[URL], Error>) -> Void) {
+
+    public init() {}
+        
+    public func download(
+        sets: Array<CardSet>,
+        cardsetProgress: @escaping (CardSet, Progress) -> Void,
+        completion: @escaping (Result<[URL], Error>) -> Void
+    ) {
         let group = DispatchGroup()
         var folders: Array<URL> = []
         var downloadError: Error?
         
-        for url in urls {
+        for set in sets {
             group.enter()
-            downloadSet(at: url) { result in
+            downloadSet(
+                set,
+                onProgress: cardsetProgress
+            ) { result in
                 switch result {
                 case let .success(folder):
                     folders.append(folder)
@@ -36,16 +35,19 @@ public final class AssetDownloader {
             if let error = downloadError {
                 completion(.failure(error))
             } else {
-                assert(folders.count == self.urls.count)
+                assert(folders.count == sets.count)
                 completion(.success(folders))
             }
         }
     }
     
-    func downloadSet(at url: URL, completion: @escaping (Result<URL, Error>) -> Void) {
-        let task = URLSession.shared.downloadTask(with: url) { localURL, urlResponse, error in
+    func downloadSet(
+        _ set: CardSet,
+        onProgress: @escaping (CardSet, Progress) -> Void,
+        completion: @escaping (Result<URL, Error>) -> Void
+    ) {
+        let task = URLSession.shared.downloadTask(with: set.url) { localURL, urlResponse, error in
             if let localURL = localURL {
-                print(localURL)
                 do {
                     let zipURL = localURL.appendingPathExtension("zip")
                     try FileManager.default.moveItem(at: localURL, to: zipURL)
@@ -63,7 +65,7 @@ public final class AssetDownloader {
         
         observations.insert(
             task.progress.observe(\.fractionCompleted) { progress, _ in
-                print("\(url.lastPathComponent): \(progress.fractionCompleted)")
+                onProgress(set, progress)
             }
         )
         

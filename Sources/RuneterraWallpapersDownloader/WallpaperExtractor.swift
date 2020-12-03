@@ -17,10 +17,8 @@ public struct WallpaperExtractor {
         let cardsFolder = imgFolder.appendingPathComponent("cards", isDirectory: true)
         
         let files = try! fm.contentsOfDirectory(at: cardsFolder, includingPropertiesForKeys: nil, options: [])
-        print(files.count)
         let filtered = files
             .filter(isWallpaper(_:))
-        print(filtered.count)
         for file in filtered {
             let target = destinationUrl.appendingPathComponent(file.lastPathComponent)
             tryPrint {
@@ -34,7 +32,6 @@ public struct WallpaperExtractor {
            let size = imageDimensions(url),
            size.width != size.height
         {
-            print(size)
             return true
         } else {
             return false
