@@ -1,10 +1,13 @@
 import Foundation
-import Zip
 
 public final class AssetDownloader {
     private var observations = Set<NSKeyValueObservation>()
-
-    public init() {}
+    
+    private var downloadDirectory: URL?
+    
+    public init(downloadDirectory: URL?) {
+        self.downloadDirectory = downloadDirectory
+    }
         
     public func download(
         sets: Array<CardSet>,
@@ -49,10 +52,14 @@ public final class AssetDownloader {
         let task = URLSession.shared.downloadTask(with: set.url) { localURL, urlResponse, error in
             if let localURL = localURL {
                 do {
-                    let zipURL = localURL.appendingPathExtension("zip")
+                    let zipURL: URL
+                    if let downloadURL = self.downloadDirectory {
+                        zipURL = downloadURL.appendingPathComponent(set.ref).appendingPathExtension("zip")
+                    } else {
+                        zipURL = localURL.appendingPathExtension("zip")
+                    }
                     try FileManager.default.moveItem(at: localURL, to: zipURL)
-                    let unzipDirectory = try Zip.quickUnzipFile(zipURL)
-                    completion(.success(unzipDirectory))
+                    completion(.success(zipURL))
                 } catch {
                     completion(.failure(error))
                 }

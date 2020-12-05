@@ -21,10 +21,24 @@ As of 25/11/2020 this tool supports:
 2. Run the CLI passing the path to the folder where you want the images to be copied.
 
 ```sh
-./runeterrawallpaper path/to/folder
+USAGE: runeterraWallpaper <destination> [--skip-download] [--keep-zips]
+
+ARGUMENTS:
+  <destination>           Directory to save the wallpapers. 
+
+OPTIONS:
+  --skip-download         If true it reads the destination folder to find the
+                          zips instead of downloading them again. 
+  --keep-zips             If true downloaded zips won't be removed. Useful if
+                          you want to use `skipDownload` later. 
+  -h, --help              Show help information.
 ```
 
 The tool will start downloading all the data sets, it may take a while. Once the poros finish downloading the assets they will extract the zips and copy the wallpapers on the desired folder.
+
+# Library
+
+The main code is exposed as a library module called `RuneterraWallpapersDownloader`.
 
 # Author
 

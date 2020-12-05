@@ -1,17 +1,32 @@
 import Foundation
+import Zip
 
 public struct WallpaperExtractor {
-    let assetsUrl: URL
-    let destinationUrl: URL
+    private let zipUrl: URL
+    private let destinationUrl: URL
+    private let removeZip: Bool
+    private let removeAssets: Bool
     
-    public init(assetsUrl: URL, destinationUrl: URL) {
-        self.assetsUrl = assetsUrl
+    public init(zipUrl: URL, destinationUrl: URL, removeZip: Bool, removeAssets: Bool) {
+        self.zipUrl = zipUrl
         self.destinationUrl = destinationUrl
+        self.removeZip = removeZip
+        self.removeAssets = removeAssets
     }
     
-    let fm = FileManager.default
+    private let fm = FileManager.default
     
     public func extract() {
+        let assetsUrl = destinationUrl
+            .appendingPathComponent(zipUrl.lastPathComponent)
+            .deletingPathExtension()
+        do {
+            try Zip.unzipFile(zipUrl, destination: assetsUrl, overwrite: true, password: nil)
+        } catch {
+            print(error)
+            return
+        }
+        
         let langFolder = assetsUrl.appendingPathComponent("en_us", isDirectory: true)
         let imgFolder = langFolder.appendingPathComponent("img", isDirectory: true)
         let cardsFolder = imgFolder.appendingPathComponent("cards", isDirectory: true)
@@ -22,7 +37,22 @@ public struct WallpaperExtractor {
         for file in filtered {
             let target = destinationUrl.appendingPathComponent(file.lastPathComponent)
             tryPrint {
-                try fm.copyItem(at: file, to: target)
+                if fm.fileExists(atPath: target.path) {
+                    print("Skipping \(target.lastPathComponent). It already exists.")
+                } else {
+                    try fm.copyItem(at: file, to: target)
+                }
+            }
+        }
+        
+        if removeZip {
+            tryPrint {
+                try fm.removeItem(at: zipUrl)
+            }
+        }
+        if removeAssets {
+            tryPrint {
+                try fm.removeItem(at: assetsUrl)
             }
         }
     }
@@ -57,6 +87,6 @@ func tryPrint(_ f: () throws -> Void) {
     do {
         try f()
     } catch {
-        print(error)
+//        print(error)
     }
 }

@@ -9,6 +9,10 @@ let package = Package(
         .executable(
             name: "runeterrawallpaper",
             targets: ["CLI"]
+        ),
+        .library(
+            name: "RuneterraWallpapersDownloader",
+            targets: ["RuneterraWallpapersDownloader"]
         )
     ],
     dependencies: [
