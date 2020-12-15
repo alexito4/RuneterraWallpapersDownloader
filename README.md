@@ -13,7 +13,7 @@ As of 25/11/2020 this tool supports:
 
 - Set 1: Foundations
 - Set 2: Rising Tides
-- Set 3: Call of the Mountain
+- Set 3: Call of the Mountain + Monuments of Power
 
 # How to use
 
