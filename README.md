@@ -11,12 +11,25 @@ This tool downloads the [official card assets](https://developer.riotgames.com/d
 
 # Supported Sets
 
-As of 15/12/2020 this tool supports:
+*updated 15/12/2020*
 
-- Set 1: Foundations
-- Set 2: Rising Tides
-- Set 3: Call of the Mountain + Monuments of Power + Cosmic Creation
-
+- Set 1: 
+  - [x] Foundations
+- Set 2: 
+  - [x] Rising Tides
+- Set 3
+  - [x] Call of the Mountain
+  - [x] Monuments of Power
+  - [x] Cosmic Creation
+  - [ ] Aphelios Champion Expansion (February)
+- Set 4
+  - [ ] Empires of the Ascended (March)
+  - [ ] Guardians of the Ancient (May)
+  - [ ] Rise of the Underworlds (June)
+  - [ ] Champion Expansion (July)
+  
+[LoR 2021 Roadmap](https://twitter.com/PlayRuneterra/status/1347573782060306433/photo/1)
+  
 # How to use
 
 1. Download the latest version from the [Releases](https://github.com/alexito4/RuneterraWallpapersDownloader/releases) page.
