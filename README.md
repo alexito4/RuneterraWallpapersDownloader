@@ -5,13 +5,13 @@ Are you a [Runeterra](https://universe.leagueoflegends.com) fan? Do you want the
 
 **Updated for Cosmic Creation!**
 
-![](03MT009-full.jpg)
+![](03MT217-full.jpg)
 
 This tool downloads the [official card assets](https://developer.riotgames.com/docs/lor#data-dragon) from Legends of Runeterra and copies the card full screen art into the desired location.  I built this to help me keep up to date the wallpapers every time a new set is released. Doing it manually takes too much time since the assets come organised in folders that have together the card images and the full screen art, also those folders contain images for the spells which don't have big images that can be used as wallpapers.
 
 # Supported Sets
 
-*updated 15/12/2020*
+*updated 03/02/2021*
 
 - Set 1: 
   - [x] Foundations
@@ -28,8 +28,9 @@ This tool downloads the [official card assets](https://developer.riotgames.com/d
   - [ ] Rise of the Underworlds (June)
   - [ ] Champion Expansion (July)
   
+
 [LoR 2021 Roadmap](https://twitter.com/PlayRuneterra/status/1347573782060306433/photo/1)
-  
+
 # How to use
 
 1. Download the latest version from the [Releases](https://github.com/alexito4/RuneterraWallpapersDownloader/releases) page.
