@@ -21,7 +21,7 @@ This tool downloads the [official card assets](https://developer.riotgames.com/d
   - [x] Call of the Mountain
   - [x] Monuments of Power
   - [x] Cosmic Creation
-  - [ ] Aphelios Champion Expansion (February)
+  - [x] Aphelios Champion Expansion
 - Set 4
   - [ ] Empires of the Ascended (March)
   - [ ] Guardians of the Ancient (May)
