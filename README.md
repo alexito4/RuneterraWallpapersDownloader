@@ -5,7 +5,7 @@ Are you a [Runeterra](https://universe.leagueoflegends.com) fan? Do you want the
 
 **Updated for Cosmic Creation!**
 
-![](03MT217-full.jpg)
+![](04SH062T1-full.jpg)
 
 This tool downloads the [official card assets](https://developer.riotgames.com/docs/lor#data-dragon) from Legends of Runeterra and copies the card full screen art into the desired location.  I built this to help me keep up to date the wallpapers every time a new set is released. Doing it manually takes too much time since the assets come organised in folders that have together the card images and the full screen art, also those folders contain images for the spells which don't have big images that can be used as wallpapers.
 
@@ -23,7 +23,7 @@ This tool downloads the [official card assets](https://developer.riotgames.com/d
   - [x] Cosmic Creation
   - [x] Aphelios Champion Expansion
 - Set 4
-  - [ ] Empires of the Ascended (March)
+  - [x] Empires of the Ascended (March)
   - [ ] Guardians of the Ancient (May)
   - [ ] Rise of the Underworlds (June)
   - [ ] Champion Expansion (July)
