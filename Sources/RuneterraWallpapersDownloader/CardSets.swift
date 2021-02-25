@@ -6,6 +6,10 @@ public struct CardSet: Hashable {
     public let url: URL
 }
 
+extension CardSet: CustomStringConvertible {
+    public var description: String { "\(ref.last!): \(name)" }
+}
+
 extension CardSet {
     public static let all = [
         CardSet(

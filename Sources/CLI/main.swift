@@ -9,6 +9,9 @@ struct Download: ParsableCommand {
     @Argument(help: "Directory to save the wallpapers.", transform: URL.init(fileURLWithPath:))
     var destination: URL
     
+    @Option(name: .customLong("set"), help: "Specify all the Card Sets you want download. Use the set index. Ex: --set 1 --set 2.")
+    var sets: [CardSet] = CardSet.all
+    
     @Flag(help: "If true it reads the destination folder to find the zips instead of downloading them again.")
     var skipDownload: Bool = false
     
@@ -16,8 +19,6 @@ struct Download: ParsableCommand {
     var keepZips: Bool = false
     
     func run() throws {
-        let sets = CardSet.all
-        
         func afterDownload(_ urls: [URL]) {
             extract(urls)
             log(sets: sets)
