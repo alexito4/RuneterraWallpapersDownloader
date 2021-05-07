@@ -5,13 +5,13 @@ Are you a [Runeterra](https://universe.leagueoflegends.com) fan? Do you want the
 
 **Updated for Cosmic Creation!**
 
-![](04SH062T1-full.jpg)
+![](04MT005-full.jpg)
 
 This tool downloads the [official card assets](https://developer.riotgames.com/docs/lor#data-dragon) from Legends of Runeterra and copies the card full screen art into the desired location.  I built this to help me keep up to date the wallpapers every time a new set is released. Doing it manually takes too much time since the assets come organised in folders that have together the card images and the full screen art, also those folders contain images for the spells which don't have big images that can be used as wallpapers.
 
 # Supported Sets
 
-*updated 03/02/2021*
+*updated 07/05/2021*
 
 - Set 1: 
   - [x] Foundations
@@ -24,10 +24,9 @@ This tool downloads the [official card assets](https://developer.riotgames.com/d
   - [x] Aphelios Champion Expansion
 - Set 4
   - [x] Empires of the Ascended (March)
-  - [ ] Guardians of the Ancient (May)
+  - [x] Guardians of the Ancient (May)
   - [ ] Rise of the Underworlds (June)
   - [ ] Champion Expansion (July)
-  
 
 [LoR 2021 Roadmap](https://twitter.com/PlayRuneterra/status/1347573782060306433/photo/1)
 
@@ -37,16 +36,18 @@ This tool downloads the [official card assets](https://developer.riotgames.com/d
 2. Run the CLI passing the path to the folder where you want the images to be copied.
 
 ```sh
-USAGE: runeterraWallpaper <destination> [--skip-download] [--keep-zips]
+USAGE: runeterraWallpaper <destination> [--set <set> ...] [--skip-download] [--keep-zips]
 
 ARGUMENTS:
   <destination>           Directory to save the wallpapers. 
 
 OPTIONS:
-  --skip-download         If true it reads the destination folder to find the
-                          zips instead of downloading them again. 
-  --keep-zips             If true downloaded zips won't be removed. Useful if
-                          you want to use `skipDownload` later. 
+  --set <set>             Specify all the Card Sets you want download. Use the set index. Ex: --set 1 --set 2.
+                          (default: 1: Foundations, 2: Rising Tides, 3: Call of the Mountain, 4: Empires of the
+                          Ascended)
+  --skip-download         If true it reads the destination folder to find the zips instead of downloading them
+                          again. 
+  --keep-zips             If true downloaded zips won't be removed. Useful if you want to use `skipDownload` later. 
   -h, --help              Show help information.
 ```
 
