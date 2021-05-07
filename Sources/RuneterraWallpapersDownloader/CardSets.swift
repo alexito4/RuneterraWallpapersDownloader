@@ -28,7 +28,7 @@ extension CardSet {
             url: URL(string: "https://dd.b.pvp.net/latest/set3-en_us.zip")!
         ),
         CardSet(
-            ref: "Set4",
+            ref: "Set4", // 2.3
             name: "Empires of the Ascended",
             url: URL(string: "https://dd.b.pvp.net/latest/set4-en_us.zip")!
         ),
