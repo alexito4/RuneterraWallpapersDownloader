@@ -19,7 +19,7 @@ let package = Package(
 //        .package(url: "https://github.com/marmelroy/Zip", from: "2.1.1"),
         // https://github.com/marmelroy/Zip/pull/221
         .package(url: "https://github.com/maparoni/Zip.git", .revisionItem("059e7346082d02de16220cd79df7db18ddeba8c3")),
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.0"),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.1"),
     ],
     targets: [
         .executableTarget(
