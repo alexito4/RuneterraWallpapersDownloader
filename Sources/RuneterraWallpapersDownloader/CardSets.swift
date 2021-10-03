@@ -11,6 +11,8 @@ extension CardSet: CustomStringConvertible {
 }
 
 extension CardSet {
+    // From https://dd.b.pvp.net/latest/core-en_us.zip
+    // en_us/data/globals-en_us.json["sets"]
     public static let all = [
         CardSet(
             ref: "Set1", // 1.0
@@ -32,5 +34,10 @@ extension CardSet {
             name: "Empires of the Ascended",
             url: URL(string: "https://dd.b.pvp.net/latest/set4-en_us.zip")!
         ),
+        CardSet(
+            ref: "Set5", // 2.14
+            name: "Beyond the Bandlewood",
+            url: URL(string: "https://dd.b.pvp.net/latest/set5-en_us.zip")!
+        )
     ]
 }
