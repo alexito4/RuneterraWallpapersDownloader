@@ -2,8 +2,7 @@ import ArgumentParser
 import Foundation
 import RuneterraWallpapersDownloader
 
-struct Download: ParsableCommand {
-    
+struct Download: AsyncParsableCommand {
     static var configuration = CommandConfiguration(commandName: "runeterraWallpaper")
     
     @Argument(help: "Directory to save the wallpapers.", transform: URL.init(fileURLWithPath:))
@@ -17,15 +16,11 @@ struct Download: ParsableCommand {
     
     @Flag(help: "If true downloaded zips won't be removed. Useful if you want to use `skipDownload` later.")
     var keepZips: Bool = false
-    
-    func run() throws {
-        func afterDownload(_ urls: [URL]) {
-            extract(urls)
-            log(sets: sets)
-        }
         
+    mutating func runAsync() async throws {
+        let urls: [URL]
         if skipDownload {
-            let urls = sets
+            urls = sets
                 .map(\.ref)
                 .map {
                     destination
@@ -39,73 +34,32 @@ struct Download: ParsableCommand {
                     }
                     return exists
                 }
-            afterDownload(urls)
         } else {
-            download(sets, completion: afterDownload(_:))
+            urls = try await download(sets)
         }
         
-        RunLoop.main.run()
+        extract(urls)
+        log(sets: sets)
     }
     
     // MARK: Download
     
-    private func download(_ sets: [CardSet], completion: @escaping ([URL]) -> Void) {
+    private func download(_ sets: [CardSet]) async throws -> [URL] {
         print("Downloading \(sets.count) card sets:")
 
         let downloader = AssetDownloader(downloadDirectory: destination)
-
-        var progressDict = Dictionary<CardSet, Progress>()
-
-        let timer = Timer(timeInterval: 0.5, repeats: true) { timer in
-            timerTick(progressDict: progressDict, timer: timer)
-        }
+        let progressBar = ProgressBar()
         
-        downloader.download(
+        let urls = try await downloader.download(
             sets: sets,
             cardsetProgress: { (cardset, progress) in
-                progressDict[cardset] = progress
+                progressBar.update(progress, for: cardset)
             }
-        ) { result in
-            timer.invalidate()
-            
-            switch result {
-            case .success(let urls):
-                print("Downloaded.")
-                completion(urls)
-            case .failure(let error):
-                print(error)
-            }
-            Darwin.exit(EXIT_SUCCESS)
-        }
-        
-        timer.fire()
-        RunLoop.main.add(timer, forMode: .default)
-    }
-        
-    private func timerTick(progressDict: Dictionary<CardSet, Progress>, timer: Timer) {
-        let maxNameLength = progressDict.keys.map(\.name.count).max() ?? 0
-        let maxDescriptionLength = max(
-            progressDict.values.map(\.localizedAdditionalDescription.count).max() ?? 0,
-            20
         )
-        
-        guard timer.isValid else { return }
-
-        var printed = 0
-        for (set, progress) in progressDict.sorted(by: { $0.0.ref < $1.0.ref }) {
-            let bar = progressBar(fraction: progress.fractionCompleted, length: 20)
-            let percentage = "\(String(format: "%.2f", progress.fractionCompleted*100).leftpad(6))%"
-            
-            print("\(set.name.leftpad(maxNameLength)): \(progress.localizedAdditionalDescription?.leftpad(maxDescriptionLength) ?? "") \(bar) \(percentage)")
-            
-            printed += 1
-        }
-
-        guard timer.isValid else { return }
-        
-        eraseLines(printed)
+        print("Downloaded.")
+        return urls
     }
-    
+        
     // MARK: Extraction
     
     private func extract(_ urls: [URL]) {
@@ -164,4 +118,10 @@ struct Download: ParsableCommand {
     
 }
 
-Download.main()
+@main
+struct App {
+    static func main() async {
+        await Download.main()
+    }
+}
+
