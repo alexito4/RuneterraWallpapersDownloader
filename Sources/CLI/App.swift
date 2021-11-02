@@ -18,104 +18,109 @@ struct Download: AsyncParsableCommand {
     var keepZips: Bool = false
         
     mutating func runAsync() async throws {
-        let urls: [URL]
-        if skipDownload {
-            urls = sets
-                .map(\.ref)
-                .map {
-                    destination
-                        .appendingPathComponent($0)
-                        .appendingPathExtension("zip")
-                }
-                .filter {
-                    let exists = FileManager.default.fileExists(atPath: $0.path)
-                    if !exists {
-                        print("\($0.lastPathComponent) not found. Skipping this set.")
-                    }
-                    return exists
-                }
-        } else {
-            urls = try await download(sets)
-        }
-        
-        extract(urls)
-        log(sets: sets)
-    }
-    
-    // MARK: Download
-    
-    private func download(_ sets: [CardSet]) async throws -> [URL] {
         print("Downloading \(sets.count) card sets:")
-
-        let downloader = AssetDownloader(downloadDirectory: destination)
-        let progressBar = ProgressBar()
         
-        let urls = try await downloader.download(
-            sets: sets,
-            cardsetProgress: { (cardset, progress) in
-                progressBar.update(progress, for: cardset)
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            let progressBar = ProgressBar()
+
+            for `set` in sets {
+                let ifNeeded = !skipDownload
+                let destination = destination
+                let keepZips = keepZips
+                group.addTask {
+                    let url = try await download(set, ifNeeded: ifNeeded, destination: destination, progressBar: progressBar)
+                    await extract(url, destination: destination, keepZips: keepZips)
+                }
             }
-        )
+            
+            try await group.waitForAll()
+        }
+        
+        log(sets: sets, destination: destination)
+        
         print("Downloaded.")
-        return urls
     }
-        
-    // MARK: Extraction
-    
-    private func extract(_ urls: [URL]) {
-        guard urls.isEmpty == false else {
-            print("Nothing to extract.")
-            return
-        }
-        
-        for (i, url) in urls.enumerated() {
-            print("Extracting wallpapers \(i+1) of \(urls.count)")
+}
 
-            let extractor = WallpaperExtractor(
-                zipUrl: url,
-                destinationUrl: destination,
-                removeZip: !keepZips,
-                removeAssets: true
-            )
-            extractor.extract()
+// MARK: Download
+
+/// Downloads the zip or just returns the file URL for an existing downlaoded file.
+private func download(
+    _ set: CardSet,
+    ifNeeded: Bool,
+    destination: URL,
+    progressBar: ProgressBar
+) async throws -> URL {
+    if ifNeeded {
+        return try await download(set, destination: destination, progressBar: progressBar)
+    } else {
+        let zipUrl = destination
+            .appendingPathComponent(set.ref)
+            .appendingPathExtension("zip")
+        
+        let exists = FileManager.default.fileExists(atPath: zipUrl.path)
+        if !exists {
+            print("\(zipUrl.lastPathComponent) not found. Skipping this set.")
         }
-        print("Extracted.")
+        return zipUrl
     }
-    
-    // MARK: Log
-    
-    func log(sets: [CardSet]) {
-        let imagesCount = try! FileManager.default
-            .contentsOfDirectory(atPath: destination.path)
-            .filter({ URL(fileURLWithPath: $0).pathExtension == "png" })
-            .count
-        
-        let log = Log(
-            date: Date(),
-            sets: sets,
-            numberOfWallpapers: imagesCount
-        )
-        
-        let logLineString = log.lineString() + "\n"
-        guard let logLine = logLineString.data(using: .utf8) else {
-            print("Error creating log line.")
-            return
-        }
-        let logFile = destination
-            .appendingPathComponent("log")
-            .appendingPathExtension("csv")
-        
-        if FileManager.default.fileExists(atPath: logFile.path) {
-            if let fileHandle = try? FileHandle(forWritingTo: logFile) {
-                fileHandle.seekToEndOfFile()
-                fileHandle.write(logLine)
-                fileHandle.closeFile()
-            }
-        } else {
-            try? logLine.write(to: logFile, options: .atomicWrite)
-        }
+}
+
+private func download(
+    _ set: CardSet,
+    destination: URL,
+    progressBar: ProgressBar
+) async throws -> URL {
+    let downloader = AssetDownloader(downloadDirectory: destination)
+    return try await downloader.downloadSet(set) { set, progress in
+        progressBar.update(progress, for: set)
     }
+}
+        
+// MARK: Extraction
+
+private func extract(_ url: URL, destination: URL, keepZips: Bool) async {
+    let extractor = WallpaperExtractor(
+        zipUrl: url,
+        destinationUrl: destination,
+        removeZip: !keepZips,
+        removeAssets: true
+    )
+    extractor.extract()
+}
+
+// MARK: Log
+
+func log(sets: [CardSet], destination: URL) {
+    let imagesCount = try! FileManager.default
+        .contentsOfDirectory(atPath: destination.path)
+        .filter({ URL(fileURLWithPath: $0).pathExtension == "png" })
+        .count
     
+    let log = Log(
+        date: Date(),
+        sets: sets,
+        numberOfWallpapers: imagesCount
+    )
+    
+    let logLineString = log.lineString() + "\n"
+    guard let logLine = logLineString.data(using: .utf8) else {
+        print("Error creating log line.")
+        return
+    }
+    let logFile = destination
+        .appendingPathComponent("log")
+        .appendingPathExtension("csv")
+    
+    if FileManager.default.fileExists(atPath: logFile.path) {
+        if let fileHandle = try? FileHandle(forWritingTo: logFile) {
+            fileHandle.seekToEndOfFile()
+            fileHandle.write(logLine)
+            fileHandle.closeFile()
+        }
+    } else {
+        try? logLine.write(to: logFile, options: .atomicWrite)
+    }
 }
 
 @main

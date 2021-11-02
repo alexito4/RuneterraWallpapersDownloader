@@ -27,7 +27,7 @@ public final class AssetDownloader {
         })
     }
     
-    func downloadSet(
+    public func downloadSet(
         _ set: CardSet,
         onProgress: @escaping (CardSet, Progress) -> Void
     ) async throws -> URL {
@@ -62,7 +62,15 @@ extension URLSession {
         return try await withCheckedThrowingContinuation { continuation in
             let task = downloadTask(with: request) { localURL, urlResponse, error in
                 if let localURL = localURL, let response = urlResponse {
-                    continuation.resume(returning: (localURL, response))
+                    do {
+                        // Move the file because it gets removed at the end of the completion block.
+                        // I wonder how the native async variant is implemented. Do they move it or somehow keep it alive?
+                        let finalPath = NSTemporaryDirectory().appending(UUID().uuidString)
+                        try FileManager.default.moveItem(atPath: localURL.path, toPath: finalPath)
+                        continuation.resume(returning: (URL(fileURLWithPath: finalPath), response))
+                    } catch {
+                        continuation.resume(throwing: error)
+                    }
                 } else if let error = error {
                     continuation.resume(throwing: error)
                 } else {
