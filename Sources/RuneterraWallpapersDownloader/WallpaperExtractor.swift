@@ -1,5 +1,6 @@
 import Foundation
 import Zip
+import ImageIO
 
 public struct WallpaperExtractor {
     private let zipUrl: URL
