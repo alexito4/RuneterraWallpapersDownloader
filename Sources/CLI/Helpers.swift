@@ -1,9 +1,8 @@
 import Foundation
 
-
 extension String {
     func leftpad(_ n: Int) -> String {
-        let padding = (0..<max(0, n-self.count)).map { _ in " " }.joined()
+        let padding = (0..<max(0, n - count)).map { _ in " " }.joined()
         return "\(padding)\(self)"
     }
 }

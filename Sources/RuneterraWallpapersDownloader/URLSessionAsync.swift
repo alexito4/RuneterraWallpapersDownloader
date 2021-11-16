@@ -5,14 +5,14 @@ private final class Box<T> {
     init(_ value: T) { self.value = value }
 }
 
-extension URLSession {
+public extension URLSession {
     /// Convenience method to download using an URLRequest, creates and resumes an URLSessionDownloadTask internally.
     ///
     /// - Parameter request: The URLRequest for which to download.
     /// - Parameter onProgress: Closure to call when the progress of the task is updated.
     /// - Parameter delegate: Task-specific delegate.
     /// - Returns: Downloaded file URL and response. The file will not be removed automatically.
-    public func download(
+    func download(
         for request: URLRequest,
         onProgress: @escaping (Progress) -> Void,
         delegate: URLSessionTaskDelegate? = nil
@@ -46,7 +46,7 @@ extension URLSession {
                 observation.value = task.progress.observe(\.fractionCompleted) { progress, _ in
                     onProgress(progress)
                 }
-                
+
                 task.resume()
             }
         } onCancel: {

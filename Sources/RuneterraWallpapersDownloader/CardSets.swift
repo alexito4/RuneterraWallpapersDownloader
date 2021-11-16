@@ -5,7 +5,7 @@ public struct CardSet: Hashable {
     public let ref: String
     public let name: String
     public let url: URL
-    
+
     public var number: Int {
         Int(String(ref.last!))!
     }
@@ -16,9 +16,8 @@ extension CardSet: CustomStringConvertible {
 }
 
 public final class CardSets {
-    
     public init() {}
-    
+
     // https://dd.b.pvp.net/latest/core-en_us.zip
     // en_us/data/globals-en_us.json["sets"]
     public func fetchSets() async throws -> [CardSet] {
@@ -33,12 +32,12 @@ public final class CardSets {
             .appendingPathComponent(UUID().uuidString)
             .appendingPathExtension("zip")
         try FileManager.default.moveItem(at: localURL, to: zipURL)
-        
+
         // Unzip
         let destination = URL(fileURLWithPath: NSTemporaryDirectory())
             .appendingPathComponent("sets_\(UUID().uuidString)")
         try Zip.unzipFile(zipURL, destination: destination, overwrite: true, password: nil)
-        
+
         // Read globals file
         let globalsURL = destination
             .appendingPathComponent("en_us")
@@ -47,7 +46,7 @@ public final class CardSets {
             .appendingPathExtension("json")
         let data = try Data(contentsOf: globalsURL)
         let globals = try JSONDecoder().decode(Globals.self, from: data)
-        
+
         let cardSets = globals.sets
             .filter {
                 // Ignore the Events set. Is an only in game set,
@@ -61,7 +60,7 @@ public final class CardSets {
             }
             .map(CardSet.init(set:))
             .sorted(by: { $0.ref < $1.ref })
-        
+
         return cardSets
     }
 }
@@ -69,7 +68,7 @@ public final class CardSets {
 /// Decoder for globals json file
 private struct Globals: Decodable {
     let sets: [Set]
-    
+
     struct Set: Decodable {
         public let name: String
         public let nameRef: String

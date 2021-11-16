@@ -1,22 +1,22 @@
 import Foundation
-import Zip
 import ImageIO
+import Zip
 
 public struct WallpaperExtractor {
     private let zipUrl: URL
     private let destinationUrl: URL
     private let removeZip: Bool
     private let removeAssets: Bool
-    
+
     public init(zipUrl: URL, destinationUrl: URL, removeZip: Bool, removeAssets: Bool) {
         self.zipUrl = zipUrl
         self.destinationUrl = destinationUrl
         self.removeZip = removeZip
         self.removeAssets = removeAssets
     }
-    
+
     private let fm = FileManager.default
-    
+
     public func extract() {
         let assetsUrl = destinationUrl
             .appendingPathComponent(zipUrl.lastPathComponent)
@@ -27,11 +27,11 @@ public struct WallpaperExtractor {
             print(error)
             return
         }
-        
+
         let langFolder = assetsUrl.appendingPathComponent("en_us", isDirectory: true)
         let imgFolder = langFolder.appendingPathComponent("img", isDirectory: true)
         let cardsFolder = imgFolder.appendingPathComponent("cards", isDirectory: true)
-        
+
         let files = try! fm.contentsOfDirectory(at: cardsFolder, includingPropertiesForKeys: nil, options: [])
         let filtered = files
             .filter(isWallpaper(_:))
@@ -45,7 +45,7 @@ public struct WallpaperExtractor {
                 }
             }
         }
-        
+
         if removeZip {
             tryPrint {
                 try fm.removeItem(at: zipUrl)
@@ -57,7 +57,7 @@ public struct WallpaperExtractor {
             }
         }
     }
-    
+
     private func isWallpaper(_ url: URL) -> Bool {
         if url.lastPathComponent.contains("full"),
            let size = imageDimensions(url),
@@ -68,15 +68,14 @@ public struct WallpaperExtractor {
             return false
         }
     }
-    
+
     private func imageDimensions(_ url: URL) -> CGSize? {
         if let imageSource = CGImageSourceCreateWithURL(url as CFURL, nil),
            let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary?
         {
-            
             let width = imageProperties[kCGImagePropertyPixelWidth] as! Int
             let height = imageProperties[kCGImagePropertyPixelHeight] as! Int
-            
+
             return CGSize(width: width, height: height)
         } else {
             return nil

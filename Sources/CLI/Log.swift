@@ -10,13 +10,13 @@ struct Log {
 extension Log {
     func lineString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd" 
+        dateFormatter.dateFormat = "yyyy/MM/dd"
         let dateString = dateFormatter.string(from: date)
-        
+
         let setsString = sets
             .map(\.ref)
             .joined(separator: "-")
-        
+
         return "\(dateString),\(setsString),\(numberOfWallpapers)"
     }
 }

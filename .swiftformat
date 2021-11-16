@@ -1,0 +1,44 @@
+--swiftversion 5.5
+
+--allman false
+--assetliterals visual-width
+--closingparen balanced
+--commas always
+--conflictmarkers reject
+--elseposition same-line
+--emptybraces no-space
+--exponentcase lowercase
+--extensionacl on-extension
+# --fragment false
+--funcattributes preserve
+--guardelse auto
+--header strip
+--hexliteralcase uppercase
+--ifdef indent
+--importgrouping alpha
+--indent 4
+--linebreaks lf
+--maxwidth none
+--modifierorder 
+--nevertrailing 
+--nospaceoperators ...,..<
+--nowrapoperators 
+--operatorfunc spaced
+--patternlet hoist
+--ranges spaced
+--redundanttype inferred
+--self remove
+--semicolons never
+--shortoptionals always
+--stripunusedargs always
+--trailingclosures 
+--trimwhitespace always
+--typeattributes preserve
+--varattributes preserve
+--voidtype void
+--wraparguments before-first
+--wrapcollections before-first
+--wrapconditions preserve
+--wrapparameters before-first
+--wrapreturntype preserve
+--yodaswap always
