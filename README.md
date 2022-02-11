@@ -29,7 +29,8 @@ This tool downloads the [official card assets](https://developer.riotgames.com/d
   - [x] Champion Expansion (July)
 - Set 5
   - [x] Beyond the Bandlewood (August)
-  - [ ] Magical Misadventures (December)
+  - [x] Magical Misadventures (December)
+  - [x] A Curious Journey (February)
 
 *Note that the Events set is an in-game only set. The art is part of the other numbered sets.*
 
