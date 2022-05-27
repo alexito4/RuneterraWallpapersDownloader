@@ -1,17 +1,15 @@
 # Runeterra Wallpapers Downloader
 ![CI](https://github.com/alexito4/RuneterraWallpapersDownloader/workflows/CI/badge.svg)
 
-Are you a [Runeterra](https://universe.leagueoflegends.com) fan? Do you want the amazing art of the [Legends of Runeterra](https://playruneterra.com) cards as your wallpaper? Wait no more, this tool will help you get those **more than 800** amazing wallpapers with no effort.
+Are you a [Runeterra](https://universe.leagueoflegends.com) fan? Do you want the amazing art of the [Legends of Runeterra](https://playruneterra.com) cards as your wallpaper? Wait no more, this tool will help you get those **more than 1000** amazing wallpapers with no effort.
 
-**Updated for Beyond the Bandlewood!**
+**Updated for Worldwalker!**
 
-![](05PZ022T1-full.jpg)
+![06RU002T1-full](https://user-images.githubusercontent.com/750912/170662445-b0e4aec8-6918-4f90-a07d-f91686bb0e00.png)
 
 This tool downloads the [official card assets](https://developer.riotgames.com/docs/lor#data-dragon) from Legends of Runeterra and copies the card full screen art into the desired location.  I built this to help me keep up to date the wallpapers every time a new set is released. Doing it manually takes too much time since the assets come organised in folders that have together the card images and the full screen art, also those folders contain images for the spells which don't have big images that can be used as wallpapers.
 
 # Supported Sets
-
-*updated 16/11/2021*
 
 - Set 1: 
   - [x] Foundations
@@ -30,12 +28,13 @@ This tool downloads the [official card assets](https://developer.riotgames.com/d
 - Set 5
   - [x] Beyond the Bandlewood (August)
   - [x] Magical Misadventures (December)
-  - [x] A Curious Journey (February)
+  - [x] A Curious Journey (February 2022)
+- Set 6: Worldwalker (May 2022) 
 
 *Note that the Events set is an in-game only set. The art is part of the other numbered sets.*
 
 
-[LoR 2021 Roadmap](https://twitter.com/PlayRuneterra/status/1420058901643472899/photo/1)
+![LoR 2022 Roadmap](https://i0.wp.com/runeterraccg.com/wp-content/uploads/roadmap-2022.png)
 
 # How to use
 
