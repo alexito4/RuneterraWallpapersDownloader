@@ -9,6 +9,8 @@ Are you a [Runeterra](https://universe.leagueoflegends.com) fan? Do you want the
 
 This tool downloads the [official card assets](https://developer.riotgames.com/docs/lor#data-dragon) from Legends of Runeterra and copies the card full screen art into the desired location.  I built this to help me keep up to date the wallpapers every time a new set is released. Doing it manually takes too much time since the assets come organised in folders that have together the card images and the full screen art, also those folders contain images for the spells which don't have big images that can be used as wallpapers.
 
+> Requires macOS 12 or above 
+
 # Supported Sets
 
 - Set 1: 
