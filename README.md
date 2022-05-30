@@ -67,4 +67,4 @@ The main code is exposed as a library module called `RuneterraWallpapersDownload
 
 # Author
 
-Alejandro Martinez | http://alejandromp.com | [@alexito4](https://twitter.com/alexito4)
+Alejandro Martinez | https://alejandromp.com | [@alexito4](https://twitter.com/alexito4)
