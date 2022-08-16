@@ -31,7 +31,9 @@ This tool downloads the [official card assets](https://developer.riotgames.com/d
   - [x] Beyond the Bandlewood (August)
   - [x] Magical Misadventures (December)
   - [x] A Curious Journey (February 2022)
-- Set 6: Worldwalker (May 2022) 
+- Set 6: 
+  - [x] Worldwalker (May 2022) 
+  - [x] Forces from Beyond (July 2022)
 
 *Note that the Events set is an in-game only set. The art is part of the other numbered sets.*
 
